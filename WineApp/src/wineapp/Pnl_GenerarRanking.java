@@ -7,12 +7,19 @@ package wineapp;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,6 +38,26 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(xls, "src/wineapp/resources/images/xls.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(compu, "src/wineapp/resources/images/compu.png");
         
+        setPanelEnabled(PanelTReseña, false);
+        setPanelEnabled(PanelFVisualizacion, false);
+        setPanelEnabled(panelBoton, false);
+        
+        // Añadir PropertyChangeListener a fechaDesde
+        fechaDesde.addPropertyChangeListener("date", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                validateDates();
+            }
+        });
+
+        // Añadir PropertyChangeListener a fechaHasta
+        fechaHasta.addPropertyChangeListener("date", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                validateDates();
+            }
+        });
+        
         botonConfirmar.setForeground(Color.BLACK); // Inicialmente, el color del texto es negro
         botonConfirmar.setBackground(Color.decode("#cccccc"));
         botonConfirmar.addMouseListener(new MouseAdapter() {
@@ -45,8 +72,61 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
                 botonConfirmar.setBackground(Color.decode("#cccccc")); // Color de fondo inicial
                 botonConfirmar.setForeground(Color.BLACK); // Volver el color del texto a negro
         }
-        });
         
+        });
+        // Añadir ActionListener a jComboBox1
+        jComboBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (jComboBox1.getSelectedItem() != null && !jComboBox1.getSelectedItem().toString().trim().isEmpty()) {
+                    PanelFVisualizacion.setEnabled(true);
+                    for (java.awt.Component c : PanelFVisualizacion.getComponents()) c.setEnabled(true);
+                } else {
+                    PanelFVisualizacion.setEnabled(false);
+                    for (java.awt.Component c : PanelFVisualizacion.getComponents()) c.setEnabled(false);
+                }
+            }
+        });
+        ActionListener radioButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelBoton.setEnabled(true);
+                for (java.awt.Component c : panelBoton.getComponents()) {
+                    c.setEnabled(true);
+                }
+            }
+        };
+
+        botonPdf.addActionListener(radioButtonListener);
+        botonXls.addActionListener(radioButtonListener);
+        botonCompu.addActionListener(radioButtonListener);
+    }
+    
+    private void validateDates() {
+        Date fromDate = fechaDesde.getDate();
+        Date toDate = fechaHasta.getDate();
+
+        if (fromDate != null && toDate != null) {
+            if (fromDate.after(toDate)) {
+                JOptionPane.showMessageDialog(null, "Las fechas no son validas", "Error de Fecha", JOptionPane.ERROR_MESSAGE);
+                fechaHasta.setDate(null);
+                setPanelEnabled(PanelTReseña, false);
+                setPanelEnabled(PanelFVisualizacion, false);
+                setPanelEnabled(panelBoton, false);
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String dateString = sdf.format(fromDate);
+                System.out.println("Fecha desde: " + dateString);
+                setPanelEnabled(PanelTReseña, true);
+            }
+        }
+    }
+    
+    private void setPanelEnabled(javax.swing.JPanel panel, boolean isEnabled) {
+        panel.setEnabled(isEnabled);
+        for (java.awt.Component component : panel.getComponents()) {
+            component.setEnabled(isEnabled);
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -55,10 +135,10 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         fondo = new javax.swing.JPanel();
         FondoCentro = new javax.swing.JPanel();
-        FechaHasta = new javax.swing.JPanel();
+        PanelCalendary = new javax.swing.JPanel();
         Calendary = new javax.swing.JLabel();
         FechaDesde = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        FechaHasta = new javax.swing.JLabel();
         fechaDesde = new com.toedter.calendar.JDateChooser();
         fechaHasta = new com.toedter.calendar.JDateChooser();
         PanelTReseña = new javax.swing.JPanel();
@@ -91,33 +171,33 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         FechaDesde.setForeground(new java.awt.Color(166, 57, 57));
         FechaDesde.setText("FECHA DESDE");
 
-        jLabel2.setForeground(new java.awt.Color(166, 57, 57));
-        jLabel2.setText("FECHA HASTA");
+        FechaHasta.setForeground(new java.awt.Color(166, 57, 57));
+        FechaHasta.setText("FECHA HASTA");
 
         fechaDesde.setBackground(new java.awt.Color(166, 57, 57));
 
         fechaHasta.setBackground(new java.awt.Color(166, 57, 57));
 
-        javax.swing.GroupLayout FechaHastaLayout = new javax.swing.GroupLayout(FechaHasta);
-        FechaHasta.setLayout(FechaHastaLayout);
-        FechaHastaLayout.setHorizontalGroup(
-            FechaHastaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(FechaHastaLayout.createSequentialGroup()
+        javax.swing.GroupLayout PanelCalendaryLayout = new javax.swing.GroupLayout(PanelCalendary);
+        PanelCalendary.setLayout(PanelCalendaryLayout);
+        PanelCalendaryLayout.setHorizontalGroup(
+            PanelCalendaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCalendaryLayout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addGroup(FechaHastaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelCalendaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Calendary)
-                    .addGroup(FechaHastaLayout.createSequentialGroup()
+                    .addGroup(PanelCalendaryLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addGroup(FechaHastaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
+                        .addGroup(PanelCalendaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(FechaHasta)
                             .addComponent(FechaDesde)
                             .addComponent(fechaDesde, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                             .addComponent(fechaHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(68, Short.MAX_VALUE))
         );
-        FechaHastaLayout.setVerticalGroup(
-            FechaHastaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(FechaHastaLayout.createSequentialGroup()
+        PanelCalendaryLayout.setVerticalGroup(
+            PanelCalendaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCalendaryLayout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addComponent(Calendary)
                 .addGap(20, 20, 20)
@@ -125,7 +205,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(fechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
-                .addComponent(jLabel2)
+                .addComponent(FechaHasta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(94, Short.MAX_VALUE))
@@ -246,13 +326,12 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(FondoCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(FondoCentroLayout.createSequentialGroup()
-                        .addComponent(FechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PanelCalendary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PanelTReseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FondoCentroLayout.createSequentialGroup()
                         .addComponent(panelBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelFVisualizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -262,7 +341,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(FondoCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(PanelFVisualizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(FechaHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelCalendary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PanelTReseña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(panelBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,9 +378,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
 
         JButton botonConfirmar = new JButton();
@@ -330,8 +407,9 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Calendary;
     private javax.swing.JLabel FechaDesde;
-    private javax.swing.JPanel FechaHasta;
+    private javax.swing.JLabel FechaHasta;
     private javax.swing.JPanel FondoCentro;
+    private javax.swing.JPanel PanelCalendary;
     private javax.swing.JPanel PanelFVisualizacion;
     private javax.swing.JPanel PanelTReseña;
     private javax.swing.JLabel Reseña;
@@ -349,7 +427,6 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
     private javax.swing.JLabel fotoVisualizacion;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel panelBoton;
     private javax.swing.JLabel pdf;
     private javax.swing.JLabel xls;
