@@ -18,7 +18,7 @@ import java.util.Date;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -33,7 +33,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(Calendary, "src/wineapp/resources/images/calendary.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(Reseña, "src/wineapp/resources/images/reseña.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(fotoVisualizacion, "src/wineapp/resources/images/formaVisualizacion.png");
-        rsscalelabel.RSScaleLabel.setScaleLabel(flecha, "src/wineapp/resources/images/flecha.png");
+        //rsscalelabel.RSScaleLabel.setScaleLabel(flecha, "src/wineapp/resources/images/flecha.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(pdf, "src/wineapp/resources/images/pdf.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(xls, "src/wineapp/resources/images/xls.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(compu, "src/wineapp/resources/images/compu.png");
@@ -43,19 +43,13 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         setPanelEnabled(panelBoton, false);
         
         // Añadir PropertyChangeListener a fechaDesde
-        fechaDesde.addPropertyChangeListener("date", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                validateDates();
-            }
+        fechaDesde.addPropertyChangeListener("date", (PropertyChangeEvent evt) -> {
+            validateDates();
         });
 
         // Añadir PropertyChangeListener a fechaHasta
-        fechaHasta.addPropertyChangeListener("date", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                validateDates();
-            }
+        fechaHasta.addPropertyChangeListener("date", (PropertyChangeEvent evt) -> {
+            validateDates();
         });
         
         botonConfirmar.setForeground(Color.BLACK); // Inicialmente, el color del texto es negro
@@ -75,25 +69,19 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         
         });
         // Añadir ActionListener a jComboBox1
-        jComboBox1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jComboBox1.getSelectedItem() != null && !jComboBox1.getSelectedItem().toString().trim().isEmpty()) {
-                    PanelFVisualizacion.setEnabled(true);
-                    for (java.awt.Component c : PanelFVisualizacion.getComponents()) c.setEnabled(true);
-                } else {
-                    PanelFVisualizacion.setEnabled(false);
-                    for (java.awt.Component c : PanelFVisualizacion.getComponents()) c.setEnabled(false);
-                }
+        jComboBox1.addActionListener((ActionEvent e) -> {
+            if (jComboBox1.getSelectedItem() != null && !jComboBox1.getSelectedItem().toString().trim().isEmpty()) {
+                PanelFVisualizacion.setEnabled(true);
+                for (java.awt.Component c : PanelFVisualizacion.getComponents()) c.setEnabled(true);
+            } else {
+                PanelFVisualizacion.setEnabled(false);
+                for (java.awt.Component c : PanelFVisualizacion.getComponents()) c.setEnabled(false);
             }
         });
-        ActionListener radioButtonListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panelBoton.setEnabled(true);
-                for (java.awt.Component c : panelBoton.getComponents()) {
-                    c.setEnabled(true);
-                }
+        ActionListener radioButtonListener = (ActionEvent e) -> {
+            panelBoton.setEnabled(true);
+            for (java.awt.Component c : panelBoton.getComponents()) {
+                c.setEnabled(true);
             }
         };
 
@@ -156,7 +144,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         compu = new javax.swing.JLabel();
         panelBoton = new javax.swing.JPanel();
         botonConfirmar = new javax.swing.JButton();
-        flecha = new javax.swing.JLabel();
+        regresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1080, 720));
@@ -343,40 +331,45 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
                     .addComponent(PanelFVisualizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PanelCalendary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PanelTReseña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        flecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wineapp/resources/images/flecha.png"))); // NOI18N
+        regresar.setBackground(new java.awt.Color(135, 44, 44));
+        regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wineapp/resources/images/flechaFinal.png"))); // NOI18N
+        regresar.setText("regresar");
+        regresar.setPreferredSize(new java.awt.Dimension(62, 45));
 
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
-                .addContainerGap(87, Short.MAX_VALUE)
+                .addContainerGap(101, Short.MAX_VALUE)
                 .addComponent(FondoCentro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(77, 77, 77))
             .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(flecha, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(regresar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(flecha, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(32, 32, 32)
+                .addComponent(regresar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
                 .addComponent(FondoCentro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         getContentPane().add(fondo, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    // Después de inicializar el botón "regresar"
+    
 
     
     public static void main(String args[]) {
@@ -397,10 +390,8 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
             }
         });
         
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Pnl_GenerarRanking().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Pnl_GenerarRanking().setVisible(true);
         });
     }
 
@@ -421,7 +412,6 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
     private javax.swing.JLabel compu;
     private com.toedter.calendar.JDateChooser fechaDesde;
     private com.toedter.calendar.JDateChooser fechaHasta;
-    private javax.swing.JLabel flecha;
     private javax.swing.JPanel fondo;
     private javax.swing.JLabel formaVisualizacion;
     private javax.swing.JLabel fotoVisualizacion;
@@ -429,6 +419,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel panelBoton;
     private javax.swing.JLabel pdf;
+    private javax.swing.JButton regresar;
     private javax.swing.JLabel xls;
     // End of variables declaration//GEN-END:variables
 }
