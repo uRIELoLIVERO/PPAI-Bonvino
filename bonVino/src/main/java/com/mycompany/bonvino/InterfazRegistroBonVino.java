@@ -37,6 +37,7 @@ public class InterfazRegistroBonVino extends javax.swing.JFrame {
         fondoBlanco = new com.mycompany.bonvino.PanelRound();
         ImagenCheck = new javax.swing.JLabel();
         TextoRegistro = new javax.swing.JLabel();
+        lblimagen2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(166, 57, 57));
@@ -64,39 +65,51 @@ public class InterfazRegistroBonVino extends javax.swing.JFrame {
         fondoBlancoLayout.setHorizontalGroup(
             fondoBlancoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoBlancoLayout.createSequentialGroup()
-                .addContainerGap(167, Short.MAX_VALUE)
-                .addComponent(TextoRegistro)
-                .addGap(162, 162, 162))
-            .addGroup(fondoBlancoLayout.createSequentialGroup()
-                .addGap(351, 351, 351)
-                .addComponent(ImagenCheck)
+                .addGroup(fondoBlancoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fondoBlancoLayout.createSequentialGroup()
+                        .addGap(311, 311, 311)
+                        .addComponent(ImagenCheck))
+                    .addGroup(fondoBlancoLayout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(TextoRegistro)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         fondoBlancoLayout.setVerticalGroup(
             fondoBlancoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoBlancoLayout.createSequentialGroup()
-                .addContainerGap(136, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(TextoRegistro)
-                .addGap(18, 18, 18)
+                .addGap(46, 46, 46)
                 .addComponent(ImagenCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(127, 127, 127))
+                .addGap(114, 114, 114))
         );
+
+        lblimagen2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/flechaAtras.png"))); // NOI18N
+        lblimagen2.setMaximumSize(new java.awt.Dimension(646, 413));
+        lblimagen2.setMinimumSize(new java.awt.Dimension(646, 413));
 
         javax.swing.GroupLayout fondoRojoLayout = new javax.swing.GroupLayout(fondoRojo);
         fondoRojo.setLayout(fondoRojoLayout);
         fondoRojoLayout.setHorizontalGroup(
             fondoRojoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoRojoLayout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(fondoBlanco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(lblimagen2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(fondoBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, 860, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         fondoRojoLayout.setVerticalGroup(
             fondoRojoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoRojoLayout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(fondoBlanco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addGroup(fondoRojoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fondoRojoLayout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(fondoBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoRojoLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(lblimagen2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(176, 176, 176))
         );
 
         getContentPane().add(fondoRojo, java.awt.BorderLayout.CENTER);
@@ -153,5 +166,6 @@ public class InterfazRegistroBonVino extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private com.mycompany.bonvino.PanelRound fondoBlanco;
     private javax.swing.JPanel fondoRojo;
+    private javax.swing.JLabel lblimagen2;
     // End of variables declaration//GEN-END:variables
 }
