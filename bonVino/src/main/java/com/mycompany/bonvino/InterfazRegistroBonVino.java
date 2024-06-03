@@ -107,7 +107,7 @@ public class InterfazRegistroBonVino extends javax.swing.JFrame {
                         .addGap(86, 86, 86)
                         .addComponent(fondoBlanco, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(fondoRojoLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addGap(30, 30, 30)
                         .addComponent(lblimagen2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(176, 176, 176))
         );
