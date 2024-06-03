@@ -111,6 +111,7 @@ public class InterfazInicioBonVino extends javax.swing.JFrame {
         // TODO add your handling code here:
         Pnl_GenerarRanking pantallaGenerarRanking= new Pnl_GenerarRanking();
         pantallaGenerarRanking.setVisible(true);
+        pantallaGenerarRanking.opcGenerarRankingVinos();
     }//GEN-LAST:event_opcGenerarRankingVinosActionPerformed
 
     /**

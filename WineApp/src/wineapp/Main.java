@@ -1,3 +1,5 @@
+package wineapp;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -67,6 +69,12 @@ public class Main {
         Vino torrontes = new Vino(LocalDate.of(2019, 1, 1), LocalDate.now(), null, "Torrontés Dulce", 90, 700.0f, maridaje3, varietal3, bodegaLasPalmeras);
         Vino merlot = new Vino(LocalDate.of(2018, 5, 1), LocalDate.now(), null, "Merlot Reserva", 87, 550.0f, maridaje4, varietal4, bodegaSanMiguel);
         Vino chardonnay = new Vino(LocalDate.of(2020, 3, 1), LocalDate.now(), null, "Chardonnay Premium", 92, 750.0f, maridaje5, varietal5, bodegaLaEstancia);
+        ArrayList<Vino> vinos = new ArrayList<>();
+        vinos.add(malbec);
+        vinos.add(cabernetSauvignon);
+        vinos.add (torrontes);
+        vinos.add(merlot);
+        vinos.add(chardonnay);
 
         // Crear instancias de reseña
         Reseña reseñaMalbec = new Reseña("Muy buen Malbec", true, 4.5f, LocalDate.of(2022, 5, 30), malbec);
@@ -81,5 +89,9 @@ public class Main {
         torrontes.getReseña().add(reseñaTorrontes);
         merlot.getReseña().add(reseñaMerlot);
         chardonnay.getReseña().add(reseñaChardonnay);
+
+
+        Pnl_GenerarRanking pantallaGenerarRanking = new Pnl_GenerarRanking();
+        pantallaGenerarRanking.setVinos(vinos);
     }
 }

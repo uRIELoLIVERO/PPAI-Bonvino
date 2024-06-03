@@ -1,4 +1,4 @@
-import java.text.SimpleDateFormat;
+package wineapp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -10,9 +10,10 @@ public class GestorRanking {
     private ArrayList<String> formasVisualizacion;
     private ArrayList<String> tiposReseñas;
     private ArrayList<Vino> vinos;
-
-
-    public GestorRanking(ArrayList<Vino> vino){
+    private Pnl_GenerarRanking pantalla;
+    private String tipoReseñaSelect;
+    private String formaVisualizacionSelec;
+    public GestorRanking(){
         this.formasVisualizacion.add("PDF");
         this.formasVisualizacion.add("Archivo Excel");
         this.formasVisualizacion.add("Pantalla"); 
@@ -20,22 +21,22 @@ public class GestorRanking {
         this.tiposReseñas.add("Reseñas normales");
         this.tiposReseñas.add("Reseñas de Sommelier");  
         this.tiposReseñas.add("Reseñas de Amigos"); 
-
-        this.vinos = vino;
     }
 
     
     
-    public Object[][] calcularRankingVinos(LocalDate fechaInicioRanking, LocalDate fechaFinRanking) {
+    public Object[][] calcularRankingVinos() {
         int numVinos = vinos.size();
         Object[][] ranking = new Object[2][numVinos];
 
-        for (int i = 0; i < numVinos; i++) {
-            Vino vino = vinos.get(i);
+        int i = 0;
+        for (Vino vino: vinos){
+            i ++;
             ranking[0][i] = vino;
             ranking[1][i] = vino.calcularPromedioPuntuacion(fechaInicioRanking, fechaFinRanking);
         }
-        return ordenarVinoSCalificacion(ranking);
+        System.out.print("runea calcularRankingVinos");
+        return ranking;
     }
 
     public Object[][] ordenarVinoSCalificacion(Object[][] ranking) {
@@ -56,69 +57,79 @@ public class GestorRanking {
             topRanking[0][i] = rankingList.get(i)[0];
             topRanking[1][i] = rankingList.get(i)[1];
         };
+        System.out.print("runea ordenarVinoSCalificacion");
         return topRanking;
     }
     
     public Object[][] buscarDatosVinosDelRanking(Object[][] topRanking){
         Object[][] rankingConDatos = new Object[10][10];
+        
+        for (int i = 0; i < 10; i++){
+            Vino vino = (Vino) topRanking[0][i];
+            rankingConDatos[0][i]=vino.getNombre();
+            rankingConDatos[1][i]=vino.getPrecioARS();
+            rankingConDatos[2][i]=vino.getNombreBodega();
+            rankingConDatos[3][i]=vino.getNombreRegionVitivinicola();
+            rankingConDatos[4][i]=(vino.getProcedencia()).get(0);
+            rankingConDatos[5][i]=(vino.getProcedencia()).get(1);
+            ArrayList<String> arrayDescripcionVarietal = vino.getDescripcionVarietal();
 
-        Vino vino = topRanking[0][i];
-
-        rankingConDatos[0][i]=vino.getNombre();
-        rankingConDatos[1][i]=vino.getPrecioARS();
-        rankingConDatos[2][i]=vino.getNombreBodega();
-        rankingConDatos[3][i]=vino.getNombreRegionVitivinicola();
-        rankingConDatos[4][i]=(vino.getProcedencia()).get(0);
-        rankingConDatos[5][i]=(vino.getProcedencia()).get(1);
-        ArrayList<String> arrayDescripcionVarietal = vino.getDescripcionVarietal();
-        for (String descripcion: arrayDescripcionVarietal){
-            rankingConDatos[2+j][i]= arrayDescripcionVarietal.get(j);
-        }
-    }
-    private void validarFechas() {
-        Date fromDate = tomarSelecFechaInicio();
-        Date toDate = tomarSelecFechaHasta();
-
-        if (fromDate != null && toDate != null) {
-            if (fromDate.after(toDate)) {
-                JOptionPane.showMessageDialog(null, "Las fechas no son validas", "Error de Fecha", JOptionPane.ERROR_MESSAGE);
-                fechaHasta.setDate(null);
-                setPanelEnabled(PanelTReseña, false);
-                setPanelEnabled(PanelFVisualizacion, false);
-                setPanelEnabled(panelBoton, false);
-            } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateString = sdf.format(fromDate);
-                System.out.println("Fecha desde: " + dateString);
-                setPanelEnabled(PanelTReseña, true);
+            for (int j = 0; j < arrayDescripcionVarietal.size(); j++){
+                rankingConDatos[6+j][i]= arrayDescripcionVarietal.get(j);
             }
         }
+        System.out.print("runea buscarDatosVinosDelRanking");
+        return rankingConDatos;
+    }
+
+    public boolean validarFechas(LocalDate fechaInicioRanking, LocalDate fechaFinRanking) {
+        this.fechaFinRanking = fechaFinRanking;
+        this.fechaInicioRanking = fechaInicioRanking;
+        if (!this.fechaInicioRanking.isAfter(this.fechaFinRanking)){
+            return true;
+        } else {
+            return false;
+        }
+        
     }
     
     public void generarRankingVinos(){
         pantalla.solicitarFechasRanking();
     }
     
-    public void tomarFechasRanking(){
+    public void tomarFechasRanking(LocalDate fechaInicioRanking, LocalDate fechaFinRanking){
+        this.fechaInicioRanking = fechaInicioRanking;
+        this.fechaFinRanking = fechaFinRanking;
+        validarFechas(fechaInicioRanking, fechaFinRanking);
         
     }
     
-    public void tomarTipoReseñasSelec(){
+    public void tomarTipoReseñasSelec(String tipoReseñaSelect){
+        this.tipoReseñaSelect = tipoReseñaSelect;
+        this.pantalla.mostrarFormaVisualizacionParaSelec(formasVisualizacion);
         
     }
-    public void tomarSelecFormaVisualizacion(){
-        
+    public void tomarSelecFormaVisualizacion(String formaVisualizacionSelec){
+        this.formaVisualizacionSelec = formaVisualizacionSelec;
+        pantalla.solicitarConfirmacion();
     }
     public void tomarConfirmacion(){
-        generarExcel(buscarDatosVinosDelRanking(calcularRankingVinos(fechaInicioRanking, fechaFinRanking)));
-        pantalla.informarExitoRegistro();
-        finCU();
-    }
- 
-    public void generarExcel(){
+        generarExcel(buscarDatosVinosDelRanking(ordenarVinoSCalificacion(calcularRankingVinos())));
         
     }
+ 
+    public void generarExcel(Object[][] datosVinos){
+        System.out.print("runea Excel");
+        finCU();
+    }
     public void finCU(){
+        System.out.println("Terminado");
+    }
 
+    public void setPantalla(Pnl_GenerarRanking pantalla){
+        this.pantalla = pantalla;
+    }
+    public void setVinos(ArrayList<Vino> vinos){
+        this.vinos = vinos;
     }
 }

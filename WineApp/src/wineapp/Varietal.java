@@ -1,3 +1,4 @@
+package wineapp;
 public class Varietal {
     private String descripcion;
     private int porcentajeComposicion;

@@ -2,7 +2,7 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    <Component class="javax.swing.ButtonGroup" name="grupoBotones">
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -211,7 +211,7 @@
                           <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="Reseña" min="-2" pref="48" max="-2" attributes="0"/>
-                              <Component id="jComboBox1" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
+                              <Component id="comboBoxReseña" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
                               <Component id="jLabel1" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="62" max="32767" attributes="0"/>
@@ -226,7 +226,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxReseña" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -248,14 +248,14 @@
                     <Property name="text" type="java.lang.String" value="TIPO DE RESE&#xd1;A"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox1">
+                <Component class="javax.swing.JComboBox" name="comboBoxRese&#xf1;a">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ec" green="ec" red="ec" type="rgb"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
-                        <StringItem index="0" value=" "/>
+                        <StringItem index="0" value=""/>
                         <StringItem index="1" value="Normales"/>
                         <StringItem index="2" value="De Amigos"/>
                         <StringItem index="3" value="De Sommelier"/>
@@ -347,21 +347,21 @@
                 <Component class="javax.swing.JRadioButton" name="botonPdf">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="buttonGroup1"/>
+                      <ComponentRef name="grupoBotones"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="botonXls">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="buttonGroup1"/>
+                      <ComponentRef name="grupoBotones"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="botonCompu">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="buttonGroup1"/>
+                      <ComponentRef name="grupoBotones"/>
                     </Property>
                   </Properties>
                 </Component>

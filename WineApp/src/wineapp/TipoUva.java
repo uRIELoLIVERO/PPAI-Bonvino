@@ -1,3 +1,4 @@
+package wineapp;
 public class TipoUva {
     private String descripcion;
     private String nombre;

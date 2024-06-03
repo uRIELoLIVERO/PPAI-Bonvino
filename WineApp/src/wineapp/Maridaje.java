@@ -1,3 +1,4 @@
+package wineapp;
 public class Maridaje {
     private String descripcion;
     private String nombre;
