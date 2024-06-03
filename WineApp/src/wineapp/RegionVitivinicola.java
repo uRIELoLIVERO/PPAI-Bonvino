@@ -32,4 +32,8 @@ public class RegionVitivinicola {
     public String getDescripcion (){
         return this.descripcion;
     }
+    
+    public void setProvincia (Provincia provincia){
+        this.provincia = provincia;
+    }
 }

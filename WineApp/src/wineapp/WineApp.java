@@ -15,7 +15,7 @@ public class WineApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        InterfazInicioBonVino.main(args);
+        Main.main(args);
         
     }
     

@@ -1,39 +1,41 @@
 package wineapp;
+import java.util.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.time.ZoneId;
 
 import javax.swing.JOptionPane;
 
 public class GestorRanking {
-    private LocalDate fechaInicioRanking;
-    private LocalDate fechaFinRanking;
-    private ArrayList<String> formasVisualizacion;
-    private ArrayList<String> tiposReseñas;
+    private Date fechaInicioRanking;
+    private Date fechaFinRanking;
+    private ArrayList<String> tiposVisualizacion = new ArrayList<>();
+    private ArrayList<String> tiposReseñas= new ArrayList<>();
     private ArrayList<Vino> vinos;
     private Pnl_GenerarRanking pantalla;
-    private String tipoReseñaSelect;
-    private String formaVisualizacionSelec;
-    public GestorRanking(){
-        this.formasVisualizacion.add("PDF");
-        this.formasVisualizacion.add("Archivo Excel");
-        this.formasVisualizacion.add("Pantalla"); 
-        
+    private String tipoReseñaSelec;
+    private String tipoVisualizacionSelec;
+    private ExcelReporteRanking excelReporte = new ExcelReporteRanking();
+    
+    public GestorRanking(ArrayList<Vino> vinos){
+        this.vinos = vinos;
+        this.tiposVisualizacion.add("PDF");
+        this.tiposVisualizacion.add("Archivo Excel");
+        this.tiposVisualizacion.add("Pantalla"); 
         this.tiposReseñas.add("Reseñas normales");
         this.tiposReseñas.add("Reseñas de Sommelier");  
         this.tiposReseñas.add("Reseñas de Amigos"); 
     }
-
-    
-    
+   
     public Object[][] calcularRankingVinos() {
         int numVinos = vinos.size();
         Object[][] ranking = new Object[2][numVinos];
-
+       System.out.print("Adentro de calcularRankingVinos");
         int i = 0;
         for (Vino vino: vinos){
-            i ++;
             ranking[0][i] = vino;
-            ranking[1][i] = vino.calcularPromedioPuntuacion(fechaInicioRanking, fechaFinRanking);
+            ranking[1][i] = vino.calcularPromedioPuntuacion(convertToLocalDate(fechaInicioRanking), convertToLocalDate(fechaFinRanking));
+            i ++;
         }
         System.out.print("runea calcularRankingVinos");
         return ranking;
@@ -62,6 +64,7 @@ public class GestorRanking {
     }
     
     public Object[][] buscarDatosVinosDelRanking(Object[][] topRanking){
+        System.out.println("ENTRE A DATOS VINOS");
         Object[][] rankingConDatos = new Object[10][10];
         
         for (int i = 0; i < 10; i++){
@@ -72,23 +75,25 @@ public class GestorRanking {
             rankingConDatos[3][i]=vino.getNombreRegionVitivinicola();
             rankingConDatos[4][i]=(vino.getProcedencia()).get(0);
             rankingConDatos[5][i]=(vino.getProcedencia()).get(1);
+            rankingConDatos[6][i]=topRanking[1][i];
             ArrayList<String> arrayDescripcionVarietal = vino.getDescripcionVarietal();
 
             for (int j = 0; j < arrayDescripcionVarietal.size(); j++){
-                rankingConDatos[6+j][i]= arrayDescripcionVarietal.get(j);
+                rankingConDatos[7+j][i]= arrayDescripcionVarietal.get(j);
             }
         }
-        System.out.print("runea buscarDatosVinosDelRanking");
+        
         return rankingConDatos;
     }
 
-    public boolean validarFechas(LocalDate fechaInicioRanking, LocalDate fechaFinRanking) {
-        this.fechaFinRanking = fechaFinRanking;
-        this.fechaInicioRanking = fechaInicioRanking;
-        if (!this.fechaInicioRanking.isAfter(this.fechaFinRanking)){
-            return true;
+    public void validarFechas() {
+        System.out.println("EstOY DENTRO DEL VALIDAR FECHAS GESTOR");
+        if (this.fechaInicioRanking.after(this.fechaFinRanking)){
+            System.out.println("No es valido");
+            pantalla.informarNoValidacionFechas();
         } else {
-            return false;
+            System.out.println("Es valido");
+            pantalla.solicitarSelecTipoReseña();
         }
         
     }
@@ -97,31 +102,37 @@ public class GestorRanking {
         pantalla.solicitarFechasRanking();
     }
     
-    public void tomarFechasRanking(LocalDate fechaInicioRanking, LocalDate fechaFinRanking){
+    public void tomarFechasRanking(Date fechaInicioRanking, Date fechaFinRanking){
         this.fechaInicioRanking = fechaInicioRanking;
         this.fechaFinRanking = fechaFinRanking;
-        validarFechas(fechaInicioRanking, fechaFinRanking);
+        System.out.println("Estoy tomando fechass gestor");
+        validarFechas();
         
     }
     
     public void tomarTipoReseñasSelec(String tipoReseñaSelect){
-        this.tipoReseñaSelect = tipoReseñaSelect;
-        this.pantalla.mostrarFormaVisualizacionParaSelec(formasVisualizacion);
+        this.tipoReseñaSelec = tipoReseñaSelect;
+        this.pantalla.mostrarFormaVisualizacionParaSelec(tiposVisualizacion);
+        System.out.println("ESTOY DENTRO DEL tomar SELEC tipo reseña");
         
     }
     public void tomarSelecFormaVisualizacion(String formaVisualizacionSelec){
-        this.formaVisualizacionSelec = formaVisualizacionSelec;
+        System.out.println("EL GESTOR TOMO FORMA VISUALIZACION");
+        this.tipoVisualizacionSelec = formaVisualizacionSelec;
         pantalla.solicitarConfirmacion();
     }
-    public void tomarConfirmacion(){
+    public void tomarConfirmacion(java.awt.event.ActionEvent evt){
+        System.out.println("ESTOY DENTRO DEL TOMAR CONFIRMARCION");
         generarExcel(buscarDatosVinosDelRanking(ordenarVinoSCalificacion(calcularRankingVinos())));
-        
-    }
- 
-    public void generarExcel(Object[][] datosVinos){
-        System.out.print("runea Excel");
+        pantalla.informarExitoRegistro(evt);
         finCU();
     }
+ 
+    public void generarExcel(Object[][] rankingDatos){
+        System.out.print("runea Excel");
+        excelReporte.generar(rankingDatos);
+    }
+    
     public void finCU(){
         System.out.println("Terminado");
     }
@@ -131,5 +142,12 @@ public class GestorRanking {
     }
     public void setVinos(ArrayList<Vino> vinos){
         this.vinos = vinos;
+    }
+    
+    private static LocalDate convertToLocalDate(Date date) {
+        if (date == null) {
+            return null;
+        }
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }

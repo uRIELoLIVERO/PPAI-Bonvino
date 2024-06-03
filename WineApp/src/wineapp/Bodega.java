@@ -11,7 +11,7 @@ public class Bodega {
     private LocalDate periodoActualizacion;
     private RegionVitivinicola region;
 
-    public Bodega(int coordenadasUbicacion, String descripcion, String historia, String novedad, String nombre, LocalDate periodoActualizacion, RegionVitivinicola region){
+    public Bodega(int coordenadasUbicacion, String descripcion, String historia, String nombre, LocalDate periodoActualizacion, RegionVitivinicola region){
         this.coordenadasUbicacion = coordenadasUbicacion;
         this.descripcion = descripcion;
         this.historia = historia;

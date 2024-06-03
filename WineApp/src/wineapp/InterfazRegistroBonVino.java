@@ -112,12 +112,14 @@ public class InterfazRegistroBonVino extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*
     private void volverRegistroInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverRegistroInicioActionPerformed
-     InterfazInicioBonVino interfazMensaje= new InterfazInicioBonVino();
+     InterfazInicioBonVino interfazMensaje = new InterfazInicioBonVino();
      interfazMensaje.setVisible(true);
      this.setVisible(false);// TODO add your handling code here:
     }//GEN-LAST:event_volverRegistroInicioActionPerformed
-
+    */
+    
     /**
      * @param args the command line arguments
      */

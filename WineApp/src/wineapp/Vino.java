@@ -10,12 +10,12 @@ public class Vino {
     private String nombre;
     private int notaDeCataBodega;
     private float precioARS;
-    private Maridaje maridaje;
-    private ArrayList<Reseña> reseñas;
+    private ArrayList<Maridaje> maridaje;
+    private ArrayList<Reseña> reseñas = new ArrayList<>();
     private ArrayList<Varietal> varietal;
     private Bodega bodega;
 
-    public Vino(LocalDate añada, LocalDate fechaActualizacion, Image imagenEtiqueta, String nombre, int notaDeCataBodega, float precioARS, Maridaje maridaje, ArrayList<Varietal> varietal, Bodega bodega) {
+    public Vino(LocalDate añada, LocalDate fechaActualizacion, Image imagenEtiqueta, String nombre, int notaDeCataBodega, float precioARS, ArrayList<Maridaje> maridaje, ArrayList<Varietal> varietal, Bodega bodega) {
         this.añada = añada;
         this.fechaActualizacion = fechaActualizacion;
         this.imagenEtiqueta = imagenEtiqueta;
@@ -32,6 +32,7 @@ public class Vino {
     }
 
     public float calcularPromedioPuntuacion(LocalDate fechaInicioRanking, LocalDate fechaFinRanking) {
+        System.out.println("ESTOY DENTRO DE CALCULARRRRRRRRRRRR PROM"+ this.nombre);
         float acumulador = 0f;
         int cantidad = 0;
         for (Reseña reseña : reseñas) {
@@ -45,6 +46,7 @@ public class Vino {
         } else {
             return acumulador / cantidad;
         }
+        
     }
     
     // añada
@@ -96,11 +98,11 @@ public class Vino {
         this.precioARS = precioARS;
     }
     //maridaje
-    public Maridaje getMaridaje() {
+    public ArrayList<Maridaje> getMaridaje() {
         return this.maridaje;
     }
 
-    public void setMaridaje(Maridaje maridaje){
+    public void setMaridaje(ArrayList<Maridaje> maridaje){
         this.maridaje = maridaje;
     }
     //reseña

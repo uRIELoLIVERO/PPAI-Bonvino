@@ -23,7 +23,10 @@ public class Provincia {
     public int contarRegiones(){
         return this.regionVitivinicola.size();
     }
-
+    
+    public void setPais(Pais pais){
+        this.pais = pais;
+    }
     //HACER REGION VITIVINICOLA
 
 }

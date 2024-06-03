@@ -30,11 +30,15 @@ import javax.swing.JOptionPane;
  * @author Facundo
  */
 public class Pnl_GenerarRanking extends javax.swing.JFrame {
-    private ArrayList<Vino> vinos = new ArrayList<Vino>();
+    private ArrayList<Vino> vinos;
     private GestorRanking gestor;
     private ArrayList<String> formasVisualizacion = new ArrayList<String>();
+    private Date fechaInicio;
+    private Date fechaFin;
+    private ArrayList<String> tiposReseña = new ArrayList<>();
+
+    
     public Pnl_GenerarRanking() {
-        
         initComponents();
         setLocationRelativeTo(null);
         rsscalelabel.RSScaleLabel.setScaleLabel(Calendary, "src/wineapp/resources/images/calendary.png");
@@ -106,71 +110,61 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         botonConfirmar.setText("Confirmar");
         botonConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonConfirmarActionPerformed(evt);
+                    tomarConfirmacion(evt);
                 }
         });
     }
-    private void validarFechas() {
-        Date fromDate = fechaDesde.getDate();
-        Date toDate = fechaHasta.getDate();
-
-        if (fromDate != null && toDate != null) {
-            if (fromDate.after(toDate)) {
-                JOptionPane.showMessageDialog(null, "Las fechas no son validas", "Error de Fecha", JOptionPane.ERROR_MESSAGE);
+    
+    public void informarNoValidacionFechas(){
+        JOptionPane.showMessageDialog(null, "Las fechas no son validas", "Error de Fecha", JOptionPane.ERROR_MESSAGE);
                 fechaHasta.setDate(null);
                 setPanelEnabled(PanelTReseña, false);
                 setPanelEnabled(PanelFVisualizacion, false);
                 setPanelEnabled(panelBoton, false);
-            } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateString = sdf.format(fromDate);
-                System.out.println("Fecha desde: " + dateString);
-                solicitarSelecTipoReseña();
-            }
+    }
+    
+    private void validarFechas() {
+        Date fromDate = tomarSelecFechaInicio();
+        Date toDate = tomarSelecFechaFin();
+        
+        if (fromDate != null && toDate != null) {
+            System.out.println("ESTOY VALIDANDOO");
+            gestor.tomarFechasRanking(fromDate, toDate);
         }
     }
+    
     public void solicitarFechasRanking(){
         fechaDesde.setEnabled(true);
         fechaHasta.setEnabled(true);
-        if (!gestor.validarFechas(tomarSelecFechaInicio(), tomarSelecFechaFin())){
-            JOptionPane.showMessageDialog(null, "Las fechas no son validas", "Error de Fecha", JOptionPane.ERROR_MESSAGE);
-                fechaHasta.setDate(null);
-                setPanelEnabled(PanelTReseña, false);
-                setPanelEnabled(PanelFVisualizacion, false);
-                setPanelEnabled(panelBoton, false);
-            } else {
-                setPanelEnabled(PanelTReseña, true);
-                System.out.print("anda");
-        };
     }
 
-    private LocalDate tomarSelecFechaInicio(){
-        Date date = fechaDesde.getDate();
-        Instant instant = date.toInstant();
-        
-        // Convierte el Instant a LocalDate
-        LocalDate fechaDesde = instant.atZone(ZoneId.systemDefault()).toLocalDate();
-        return fechaDesde;
+    public Date tomarSelecFechaInicio(){
+        Date dateDesde = fechaDesde.getDate();
+        this. fechaInicio = dateDesde;
+        System.out.println("TOME FECHA INICIO");
+        return dateDesde;
     }
     
-    private LocalDate tomarSelecFechaFin(){
-        Date date = fechaHasta.getDate();
-        Instant instant = date.toInstant();
-        
-        LocalDate fechaHasta = instant.atZone(ZoneId.systemDefault()).toLocalDate();
-        return fechaHasta;
+    public Date tomarSelecFechaFin(){
+        Date dateHasta = fechaHasta.getDate();
+        this.fechaFin = dateHasta;
+        System.out.println("TOME FECHA FIN");
+        return dateHasta;
     }
     
-    private void solicitarSelecTipoReseña(){
+    public void solicitarSelecTipoReseña(){
+        System.out.println("ESTOY DENTRO DEL SOLICITAR SELEC PANTALLA");
         setPanelEnabled(PanelTReseña, true);
         comboBoxReseña.setEnabled(true);
         tomarSelecTipoReseña();
     }
+    
     public void tomarSelecTipoReseña(){
+        System.out.println("PANTALLA ESTOY DENTRO DEL tomar SELEC tipo reseña");
         String tipoReseñaSelect = (String) comboBoxReseña.getSelectedItem();
         gestor.tomarTipoReseñasSelec(tipoReseñaSelect);
-        
     }
+    
     public void mostrarFormaVisualizacionParaSelec(ArrayList<String> formasVisualizacion){
         PanelFVisualizacion.setEnabled(true);
         this.formasVisualizacion = formasVisualizacion;
@@ -191,7 +185,6 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
     
     public void solicitarConfirmacion(){
       panelBoton.setEnabled(true); 
-      tomarConfirmacion();
     }
     
     private void botonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,22 +200,32 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         }
     }
     public void opcGenerarRankingVinos() {
-        this.gestor = new GestorRanking();
+        this.gestor = new GestorRanking(vinos);
         gestor.setVinos(vinos);
         gestor.setPantalla(this);
         habilitarVentana();
         gestor.generarRankingVinos();
+        System.out.println("ESTOY DENTRO DEL OPC GENERAR RANKING VINOS");
     }
     public void habilitarVentana(){
         setVisible(true);
     }
+    
     public void setVinos(ArrayList<Vino> vinos){
         this.vinos = vinos;
     }
     
-    public void tomarConfirmacion(){
-        gestor.tomarConfirmacion();
+    
+    public void tomarConfirmacion(java.awt.event.ActionEvent evt){
+        gestor.tomarConfirmacion(evt);
     }
+    
+    public void informarExitoRegistro(java.awt.event.ActionEvent evt){
+        botonConfirmarActionPerformed(evt);
+    }
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

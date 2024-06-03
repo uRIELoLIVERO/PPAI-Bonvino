@@ -16,10 +16,10 @@ public class Reseña {
        this.vino = vino;
     }
 
-    public boolean esDePeriodo(LocalDate fechaInicio, LocalDate fechaFin){
-        return (fechaReseña.isEqual(fechaInicio) || fechaReseña.isAfter(fechaInicio)) &&
-               (fechaReseña.isEqual(fechaFin) || fechaReseña.isBefore(fechaFin));
+    public boolean esDePeriodo(LocalDate fechaInicio, LocalDate fechaFin) {
+    return !(fechaReseña.isBefore(fechaInicio) || fechaReseña.isAfter(fechaFin));
     }
+
 
     public boolean sosDeSomelier(){
         if (this.esPremium) {

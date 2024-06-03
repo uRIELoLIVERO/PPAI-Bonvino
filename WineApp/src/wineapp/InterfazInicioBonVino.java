@@ -15,11 +15,10 @@ import javax.swing.JLabel;
  * @author Facundo
  */
 public class InterfazInicioBonVino extends javax.swing.JFrame {
-
-    /**
-     * Creates new form InterfazBonVino
-     */
-    public InterfazInicioBonVino() {
+    private Pnl_GenerarRanking pantallaGenerarRanking;
+    
+    public InterfazInicioBonVino(Pnl_GenerarRanking pantallaGenerarRanking) {
+        this.pantallaGenerarRanking = pantallaGenerarRanking;
         initComponents();
          this.setLocationRelativeTo(null);
          SetImageLabel (jLabel1, "src/wineapp/resources/images/fotoVinoPrueba.png");
@@ -109,15 +108,15 @@ public class InterfazInicioBonVino extends javax.swing.JFrame {
 
     private void opcGenerarRankingVinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcGenerarRankingVinosActionPerformed
         // TODO add your handling code here:
-        Pnl_GenerarRanking pantallaGenerarRanking= new Pnl_GenerarRanking();
         pantallaGenerarRanking.setVisible(true);
         pantallaGenerarRanking.opcGenerarRankingVinos();
+        System.out.println("estoy en el opcGenerarRankingVInos");
     }//GEN-LAST:event_opcGenerarRankingVinosActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[], Pnl_GenerarRanking pantallaGenerarRanking) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -143,7 +142,7 @@ public class InterfazInicioBonVino extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new InterfazInicioBonVino().setVisible(true);
+            new InterfazInicioBonVino(pantallaGenerarRanking).setVisible(true);
         });
     }
     private void SetImageLabel (JLabel labelName, String root){
