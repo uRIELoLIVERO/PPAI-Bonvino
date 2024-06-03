@@ -15,7 +15,7 @@ public class WineApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Pnl_GenerarRanking.main(args);
+        InterfazInicioBonVino.main(args);
     }
     
 }
