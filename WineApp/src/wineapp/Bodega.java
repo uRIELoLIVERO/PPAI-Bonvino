@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Bodega {
     private int coordenadasUbicacion;
@@ -18,7 +19,14 @@ public class Bodega {
         this.periodoActualizacion = periodoActualizacion;
         this.region = region;
     }
+    
+    public String getNombreRegionVitivinicola(){
+        return this.region.getNombre();
+    }
 
+    public ArrayList<String> getProcedencia(){
+        return this.region.getProcedencia();
+    }
     //coordenadasUbicacion
     public int getCoordenadasUbicacion(){
         return this.coordenadasUbicacion;
@@ -70,4 +78,5 @@ public class Bodega {
     public void setRegion(RegionVitivinicola region){
         this.region = region;
     }
+
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 public class Provincia {
     private String nombre;
     private ArrayList <RegionVitivinicola> regionVitivinicola;
@@ -9,11 +10,12 @@ public class Provincia {
         this.regionVitivinicola = regionVitivinicola;
     }
 
+    
     public String getNombre(){
         return this.nombre;
     }
 
-    public String getNombrePaís(){
+    public String getNombrePais(){
         return this.pais.getNombre();
     }
 

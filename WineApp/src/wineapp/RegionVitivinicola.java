@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class RegionVitivinicola {
     private String nombre;
     private String descripcion;
@@ -15,18 +17,11 @@ public class RegionVitivinicola {
         return this.nombre;
     }
 
-
-    //VER COMO SE IMPLEMENTA
-    public void getProcedencia(){
-
-    }
-
-    public Provincia getProvincia(){
-        return this.provincia;
-    }
-
-    public String getPaís(){
-        return this.provincia.getNombrePaís();
+    public ArrayList<String> getProcedencia(){
+        ArrayList<String> procedencia = new ArrayList<>();
+        procedencia.add(this.provincia.getNombre());
+        procedencia.add(this.provincia.getNombrePais());
+        return procedencia;
     }
 
     public void setDescripcion (String descripcion){

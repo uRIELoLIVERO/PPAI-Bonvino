@@ -1,5 +1,5 @@
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.time.LocalDate;
 import java.awt.Image;
 
 public class Vino {
@@ -118,6 +118,13 @@ public class Vino {
     public void setVarietal(ArrayList<Varietal> varietal){
         this.varietal = varietal;
     }
+    public ArrayList<String> getDescripcionVarietal(){
+        ArrayList<String> descripcionVarietales = new ArrayList<>();
+        for (Varietal varietal : varietal) {
+            descripcionVarietales.add(varietal.getDescripcion());
+        }
+        return descripcionVarietales;
+    }
 
     // bodega
     public Bodega getBodega(){
@@ -127,5 +134,15 @@ public class Vino {
     public void setBodega(Bodega bodega){
         this.bodega = bodega;
     }
+    public String getNombreBodega(){
+        return this.bodega.getNombre();
+    }
 
+    public String getNombreRegionVitivinicola(){
+        return this.bodega.getNombreRegionVitivinicola();
+    }
+
+    public ArrayList<String> getProcedencia(){
+        return this.bodega.getProcedencia();
+    }
 }
