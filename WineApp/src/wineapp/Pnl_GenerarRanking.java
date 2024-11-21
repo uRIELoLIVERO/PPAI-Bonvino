@@ -162,7 +162,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
     public void tomarSelecTipoReseña(){
         System.out.println("PANTALLA ESTOY DENTRO DEL tomar SELEC tipo reseña");
         String tipoReseñaSelect = (String) comboBoxReseña.getSelectedItem();
-        gestor.tomarTipoReseñasSelec(tipoReseñaSelect);
+        gestor.tomarTipoReseñaSelec(tipoReseñaSelect);
     }
     
     public void mostrarFormaVisualizacionParaSelec(ArrayList<String> formasVisualizacion){
@@ -207,6 +207,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         gestor.generarRankingVinos();
         System.out.println("ESTOY DENTRO DEL OPC GENERAR RANKING VINOS");
     }
+    
     public void habilitarVentana(){
         setVisible(true);
     }

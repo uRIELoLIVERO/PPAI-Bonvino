@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class RegionVitivinicola {
     private String nombre;
     private String descripcion;
+    
     private Provincia provincia;
 
     public RegionVitivinicola (String nombre, String descripcion){

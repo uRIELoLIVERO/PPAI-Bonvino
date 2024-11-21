@@ -21,7 +21,7 @@ public class Reseña {
     }
 
 
-    public boolean sosDeSomelier(){
+    public boolean sosDeSommelier(){
         if (this.esPremium) {
             return true;
         } else {
@@ -39,9 +39,6 @@ public class Reseña {
         } else {
             return false;
         }
-    }
-
-    public void sosDeEnofilo(){
     }
 
     public void setComentario(String comentario){

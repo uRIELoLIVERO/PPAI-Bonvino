@@ -3,7 +3,6 @@ import java.util.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.time.ZoneId;
-
 import javax.swing.JOptionPane;
 
 public class GestorRanking {
@@ -110,17 +109,19 @@ public class GestorRanking {
         
     }
     
-    public void tomarTipoReseñasSelec(String tipoReseñaSelect){
+    public void tomarTipoReseñaSelec(String tipoReseñaSelect){
         this.tipoReseñaSelec = tipoReseñaSelect;
         this.pantalla.mostrarFormaVisualizacionParaSelec(tiposVisualizacion);
         System.out.println("ESTOY DENTRO DEL tomar SELEC tipo reseña");
         
     }
+    
     public void tomarSelecFormaVisualizacion(String formaVisualizacionSelec){
         System.out.println("EL GESTOR TOMO FORMA VISUALIZACION");
         this.tipoVisualizacionSelec = formaVisualizacionSelec;
         pantalla.solicitarConfirmacion();
     }
+    
     public void tomarConfirmacion(java.awt.event.ActionEvent evt){
         System.out.println("ESTOY DENTRO DEL TOMAR CONFIRMARCION");
         generarExcel(buscarDatosVinosDelRanking(ordenarVinoSCalificacion(calcularRankingVinos())));

@@ -36,7 +36,7 @@ public class Vino {
         float acumulador = 0f;
         int cantidad = 0;
         for (Reseña reseña : reseñas) {
-            if (reseña.esDePeriodo(fechaInicioRanking, fechaFinRanking) && reseña.sosDeSomelier()) {
+            if (reseña.esDePeriodo(fechaInicioRanking, fechaFinRanking) && reseña.sosDeSommelier()) {
                 acumulador += reseña.getPuntaje();
                 cantidad++;
             }
