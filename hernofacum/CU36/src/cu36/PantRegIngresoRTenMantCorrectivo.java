@@ -1,0 +1,603 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cu36;
+
+import static java.lang.Integer.parseInt;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+
+/**
+ *
+ * @author MATIAS
+ */
+public class PantRegIngresoRTenMantCorrectivo extends javax.swing.JFrame {
+    
+    private GestorRegIngresoRTenMantCorrectivo gestor;
+    private String RTdelUsuario;
+    private String RTSeleccionado;
+    private String razon;        
+    private LocalDateTime fechaFin;
+    private String notificacion;
+    
+    private ArrayList<String> listaRTAgrupadas;
+    private ArrayList<RecursoTecnologico> todosLosRT;
+    private ArrayList<Estado> todosLosEstados;
+    
+    
+    private ArrayList<PersonalCientifico> personal;
+    private final Sesion sesion;
+    
+    private ArrayList<String> listaTurnos;
+    
+    
+    
+    public void opcionRegistrarReserva() {
+        gestor = new GestorRegIngresoRTenMantCorrectivo(personal,sesion,this,todosLosRT,todosLosEstados);
+        habilitarVentana();
+        setVisible(true);
+    }
+    
+    public void habilitarVentana(){
+        //gestor.gestorRTenMantCorr(this);
+        gestor.opcRegIngresoRTenMantCorrectivo();
+    }
+    
+    public void mostrarRTdispDelUsuario(ArrayList<String> listaRT) {
+        listaRTAgrupadas=listaRT;
+        comboBoxTipoRT.addItem("Seleccione un Tipo de Recurso");
+        for (int i = 0; i < (listaRT.size()/4); i++) {
+            comboBoxTipoRT.addItem(listaRTAgrupadas.get((i*4)+1));
+        }
+    }
+
+    public void pedirSelrRTdispDelUsuario() {
+        jButton2.setEnabled(true);
+    }
+    
+    public void tomarSelrRTdispDelUsuario(){
+        RTSeleccionado=jTextField1.getText();
+        for (RecursoTecnologico rt : todosLosRT) {
+            if(Integer.toString(rt.getNumeroRT()).equals(RTSeleccionado)){
+                gestor.tomarSelrRTdispDelUsuario(rt);
+            }
+        }
+    }
+    
+    public void solicitarFechaFin(){
+        jDateChooser1.setEnabled(true);
+    }
+    
+    public void solicitarRazon(){
+        Razon.setEnabled(true);
+        jButton3.setEnabled(true);
+    }
+    
+    private void tomarFechaFin() {
+        Date date = jDateChooser1.getDate();  
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");  
+        String strDate = dateFormat.format(date); 
+        int dia= parseInt(strDate.substring(8,10),10);
+        int mes= parseInt(strDate.substring(5,7),10);
+        int anio= parseInt(strDate.substring(0,4),10);
+        fechaFin=LocalDateTime.of(anio, mes, dia, 00, 00);
+    }
+
+    private void tomarRazon() {
+        razon=Razon.getText();
+        gestor.tomarFechaFin(fechaFin);
+        gestor.tomarRazon(razon);
+    }
+
+   public void mostrarTurnosEnPlazo(ArrayList<String> datos){
+        jComboBox1.setEnabled(true);
+        listaTurnos=datos;
+        jComboBox1.addItem("Seleccione un Cientifico");
+        for (int i = 0; i < (listaTurnos.size()/2); i++) {
+            jComboBox1.addItem(listaTurnos.get((i*2)+1));
+        }
+    }
+    public void solicitarConfirmacion(){
+        jTable3.setEnabled(true);
+        jCheckBox1.setEnabled(true);
+        jCheckBox1.setSelected(true);
+        jCheckBox2.setEnabled(true);
+        jButton1.setEnabled(true);
+    }
+    
+    public void tomarConfirmacionYNotif(){
+        gestor.tomarConfirmacionYNotif();
+    }
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Creates new form PantRegIngresoRTenMantCorrectivo
+     */
+    public PantRegIngresoRTenMantCorrectivo(ArrayList<PersonalCientifico> personal, Sesion sesion, ArrayList<RecursoTecnologico> todosLosRT, ArrayList<Estado> todosLosEstados) {
+        initComponents();
+        this.personal=personal;
+        this.sesion=sesion;
+        this.todosLosRT=todosLosRT;
+        this.todosLosEstados=todosLosEstados;
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        comboBoxTipoRT = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Razon = new javax.swing.JTextPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+
+        jMenu1.setText("jMenu1");
+
+        jMenu2.setText("jMenu2");
+
+        jMenuItem1.setText("jMenuItem1");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jDateChooser1.setEnabled(false);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+        jComboBox1.setEnabled(false);
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        comboBoxTipoRT.setEditable(true);
+        comboBoxTipoRT.setMaximumRowCount(20);
+        comboBoxTipoRT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
+        comboBoxTipoRT.setToolTipText("");
+        comboBoxTipoRT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxTipoRTActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Confirmar Ingreso en Mantenimiento Correctivo");
+        jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox1.setText("Notificacion mail");
+        jCheckBox1.setEnabled(false);
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox2.setText("Notificacion WhatsApp");
+        jCheckBox2.setEnabled(false);
+
+        Razon.setEnabled(false);
+        jScrollPane2.setViewportView(Razon);
+        Razon.getAccessibleContext().setAccessibleName("razon");
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Fecha de Turnos:"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setEnabled(false);
+        jScrollPane3.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                //{null, null, null},
+                //{null, null, null},
+                //{null, null, null},
+                //{null, null, null}
+            },
+            new String [] {
+                "Numero RT", "Marca", "Modelo"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable3);
+
+        jButton2.setText("Confirmar seleccion");
+        jButton2.setAutoscrolls(true);
+        jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("numero RT:");
+
+        jLabel3.setText("Fecha fin prevista:");
+
+        jButton3.setText("Ver Turnos Involucrados");
+        jButton3.setEnabled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Razon:");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(104, 104, 104)
+                .addComponent(jButton3)
+                .addGap(0, 138, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jCheckBox1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox2))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(comboBoxTipoRT, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2))))))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(comboBoxTipoRT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+
+        jDateChooser1.getAccessibleContext().setAccessibleName("fechaFin");
+        jButton2.getAccessibleContext().setAccessibleName("btnConfirmarSeleccion");
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void comboBoxTipoRTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTipoRTActionPerformed
+        String[][] auxiliar = new String[listaRTAgrupadas.size()/4][3];
+        int j=0;
+        for (int i = 0; i < (listaRTAgrupadas.size()/4); i++) {
+            if(comboBoxTipoRT.getSelectedItem()==listaRTAgrupadas.get((i*4)+1)){
+                auxiliar[j][0]=listaRTAgrupadas.get((i*4));
+                auxiliar[j][1]=listaRTAgrupadas.get((i*4)+2);
+                auxiliar[j][2]=listaRTAgrupadas.get((i*4)+3);
+                j++;
+            }
+        }
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            auxiliar,
+            new String [] {
+                "Numero RT", "Marca", "Modelo"
+            }
+        ));
+    }//GEN-LAST:event_comboBoxTipoRTActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        tomarSelrRTdispDelUsuario();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        tomarFechaFin();
+        tomarRazon();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        String[][] auxiliar = new String[listaTurnos.size()/2][1];
+        int j=0;
+        for (int i = 0; i < (listaTurnos.size()/2); i++) {
+            if(jComboBox1.getSelectedItem()==listaTurnos.get((i*2)+1)){
+                auxiliar[j][0]=listaTurnos.get((i*2));
+                j++;
+            }
+        }
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            auxiliar,
+            new String [] {
+                "Fecha De Sus Turno:"
+            }
+        ));        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        tomarConfirmacionYNotif();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PantRegIngresoRTenMantCorrectivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PantRegIngresoRTenMantCorrectivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PantRegIngresoRTenMantCorrectivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(PantRegIngresoRTenMantCorrectivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                //new PantRegIngresoRTenMantCorrectivo().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextPane Razon;
+    private javax.swing.JComboBox<String> comboBoxTipoRT;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTextField jTextField1;
+    // End of variables declaration//GEN-END:variables
+
+
+
+}

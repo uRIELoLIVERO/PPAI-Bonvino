@@ -2,6 +2,7 @@ package wineapp;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.awt.Image;
+import wineapp.patronStrategy.IEstrategiaCalculoRanking;
 
 public class Vino {
     private LocalDate añada;
@@ -31,22 +32,9 @@ public class Vino {
         return this.bodega.equals(bodega);
     }
 
-    public float calcularPromedioPuntuacion(LocalDate fechaInicioRanking, LocalDate fechaFinRanking) {
-        System.out.println("ESTOY DENTRO DE CALCULARRRRRRRRRRRR PROM"+ this.nombre);
-        float acumulador = 0f;
-        int cantidad = 0;
-        for (Reseña reseña : reseñas) {
-            if (reseña.esDePeriodo(fechaInicioRanking, fechaFinRanking) && reseña.sosDeSommelier()) {
-                acumulador += reseña.getPuntaje();
-                cantidad++;
-            }
-        }
-        if (cantidad == 0) {
-            return 0; 
-        } else {
-            return acumulador / cantidad;
-        }
-        
+    public float calcularPromedioPuntuacion(LocalDate fechaInicio, LocalDate fechaFin, IEstrategiaCalculoRanking estrategia) {
+        System.out.println("Adentro del calcularPromedioPuntuacion vino");
+        return estrategia.calcularPromedioPuntuacion(reseñas, fechaInicio, fechaFin);
     }
     
     // añada
@@ -147,5 +135,10 @@ public class Vino {
 
     public ArrayList<String> getProcedencia(){
         return this.bodega.getProcedencia();
+    }
+    
+    public void tomarEstrategia(IEstrategiaCalculoRanking estrategia){
+        System.out.println("Seteando estrategia a vino"+ this.nombre);
+        this.estrategia = estrategia;
     }
 }

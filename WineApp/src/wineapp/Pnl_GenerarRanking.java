@@ -75,7 +75,6 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         fechaDesde.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                validarFechas();
             }
         });
         // Añadir PropertyChangeListener a fechaHasta
@@ -89,6 +88,7 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         // Añadir ActionListener a jComboBox1
         comboBoxReseña.addActionListener((ActionEvent e) -> {
             if (comboBoxReseña.getSelectedItem() != null && !comboBoxReseña.getSelectedItem().toString().trim().isEmpty()) {
+                tomarSelecTipoReseña((String) comboBoxReseña.getSelectedItem());
                 PanelFVisualizacion.setEnabled(true);
                 for (java.awt.Component c : PanelFVisualizacion.getComponents()) c.setEnabled(true);
             } else {
@@ -96,17 +96,38 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
                 for (java.awt.Component c : PanelFVisualizacion.getComponents()) c.setEnabled(false);
             }
         });
+        
+        /*
         ActionListener radioButtonListener = (ActionEvent e) -> {
-            panelBoton.setEnabled(true);
-            for (java.awt.Component c : panelBoton.getComponents()) {
-                c.setEnabled(true);
-            }
-        };
+          panelBoton.setEnabled(true); // Habilita el panel de botones
+
+          for (java.awt.Component c : panelBoton.getComponents()) {
+              c.setEnabled(true); // Habilita todos los componentes del panel
+          }
+
+          // Determina qué botón fue seleccionado
+          String formaVisualizacionSelec = "";
+          if (botonPdf.isSelected()) {
+              formaVisualizacionSelec = "PDF";
+          } else if (botonXls.isSelected()) {
+              formaVisualizacionSelec = "XLS";
+          } else if (botonCompu.isSelected()) {
+              formaVisualizacionSelec = "Computadora";
+          }
+
+          // Imprime el tipo de visualización seleccionada (para depuración)
+          System.out.println("Tipo de visualización seleccionada: " + formaVisualizacionSelec);
+
+          // Llama al método tomarTipoVisualizacion con el valor seleccionado
+          tomarSelecFormaVisualizacion(formaVisualizacionSelec);
+      };
+
         
         botonPdf.addActionListener(radioButtonListener);
         botonXls.addActionListener(radioButtonListener);
         botonCompu.addActionListener(radioButtonListener);
         
+        */
         botonConfirmar.setText("Confirmar");
         botonConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +149,6 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         Date toDate = tomarSelecFechaFin();
         
         if (fromDate != null && toDate != null) {
-            System.out.println("ESTOY VALIDANDOO");
             gestor.tomarFechasRanking(fromDate, toDate);
         }
     }
@@ -152,34 +172,23 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         return dateHasta;
     }
     
-    public void solicitarSelecTipoReseña(){
-        System.out.println("ESTOY DENTRO DEL SOLICITAR SELEC PANTALLA");
+    public void solicitarSelecTipoReseña(ArrayList<String> tiposReseñas){
+        System.out.println("solicitarSelecTipoReseña - Pantalla");
         setPanelEnabled(PanelTReseña, true);
         comboBoxReseña.setEnabled(true);
-        tomarSelecTipoReseña();
     }
     
-    public void tomarSelecTipoReseña(){
-        System.out.println("PANTALLA ESTOY DENTRO DEL tomar SELEC tipo reseña");
-        String tipoReseñaSelect = (String) comboBoxReseña.getSelectedItem();
-        gestor.tomarTipoReseñaSelec(tipoReseñaSelect);
+    public void tomarSelecTipoReseña(String tipoReseñaSelec){
+        gestor.tomarTipoReseñaSelec(tipoReseñaSelec);
     }
     
     public void mostrarFormaVisualizacionParaSelec(ArrayList<String> formasVisualizacion){
         PanelFVisualizacion.setEnabled(true);
         this.formasVisualizacion = formasVisualizacion;
-        tomarSelecFormaVisualizacion();
-        
     }
-    public void tomarSelecFormaVisualizacion(){
-        String formaVisualizacionSelec = "";
-        if (botonPdf.isSelected()) {
-        formaVisualizacionSelec = formasVisualizacion.get(0);
-    } else if (botonXls.isSelected()) {
-        formaVisualizacionSelec = formasVisualizacion.get(1);
-    } else if (botonCompu.isSelected()) {
-        formaVisualizacionSelec = formasVisualizacion.get(2);
-    }
+    
+    public void tomarSelecFormaVisualizacion(String formaVisualizacionSelec){
+        System.out.println("Forma visualizacion selec:"+ formaVisualizacionSelec);
         gestor.tomarSelecFormaVisualizacion(formaVisualizacionSelec);
     }
     
@@ -317,6 +326,11 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
 
         comboBoxReseña.setBackground(new java.awt.Color(236, 236, 236));
         comboBoxReseña.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Normales", "De Amigos", "De Sommelier" }));
+        comboBoxReseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxReseñaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelTReseñaLayout = new javax.swing.GroupLayout(PanelTReseña);
         PanelTReseña.setLayout(PanelTReseñaLayout);
@@ -348,10 +362,25 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
         formaVisualizacion.setText("FORMA DE VISUALIZACION");
 
         grupoBotones.add(botonPdf);
+        botonPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonPdfActionPerformed(evt);
+            }
+        });
 
         grupoBotones.add(botonXls);
+        botonXls.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonXlsActionPerformed(evt);
+            }
+        });
 
         grupoBotones.add(botonCompu);
+        botonCompu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCompuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelFVisualizacionLayout = new javax.swing.GroupLayout(PanelFVisualizacion);
         PanelFVisualizacion.setLayout(PanelFVisualizacionLayout);
@@ -479,6 +508,26 @@ public class Pnl_GenerarRanking extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void comboBoxReseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxReseñaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxReseñaActionPerformed
+
+    private void botonPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPdfActionPerformed
+
+        tomarSelecFormaVisualizacion("pdf");
+        botonConfirmar.setEnabled(true);
+    }//GEN-LAST:event_botonPdfActionPerformed
+
+    private void botonXlsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonXlsActionPerformed
+        tomarSelecFormaVisualizacion("excel");
+        botonConfirmar.setEnabled(true);
+    }//GEN-LAST:event_botonXlsActionPerformed
+
+    private void botonCompuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCompuActionPerformed
+        tomarSelecFormaVisualizacion("compu");
+        botonConfirmar.setEnabled(true);
+    }//GEN-LAST:event_botonCompuActionPerformed
     // Después de inicializar el botón "regresar"
     
 

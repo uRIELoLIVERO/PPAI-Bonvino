@@ -156,6 +156,53 @@ public class Main {
         Reseña reseña17 = new Reseña("Recomendado", true, 4.7f, LocalDate.of(2024, 6, 26), cabernetSauvignon);
         cabernetSauvignon.getReseña().add(reseña17);
         
+        Reseña reseña18 = new Reseña("Un Malbec con cuerpo y sabor", true, 4.6f, LocalDate.of(2024, 11, 23), malbec);
+        malbec.getReseña().add(reseña18);
+        Reseña reseña19 = new Reseña("Cabernet Sauvignon con notas especiadas", true, 4.7f, LocalDate.of(2024, 11, 23), cabernetSauvignon);
+        cabernetSauvignon.getReseña().add(reseña19);
+        Reseña reseña20 = new Reseña("Torrontés fresco, con un toque floral", true, 4.4f, LocalDate.of(2024, 11, 23), torrontes);
+        torrontes.getReseña().add(reseña20);
+        Reseña reseña21 = new Reseña("Merlot suave, ideal para acompañar pastas", true, 4.5f, LocalDate.of(2024, 11, 23), merlot);
+        merlot.getReseña().add(reseña21);
+        Reseña reseña22 = new Reseña("Chardonnay elegante con notas a vainilla", true, 4.8f, LocalDate.of(2024, 11, 23), chardonnay);
+        chardonnay.getReseña().add(reseña22);
+        
+        Reseña reseña23 = new Reseña("Un Malbec coqueto ", true, 5.0f, LocalDate.of(2024, 11, 23), malbec);
+        malbec.getReseña().add(reseña23);
+        Reseña reseña24 = new Reseña("Malbec Reserva, un vino robusto, con taninos bien marcados", true, 4.7f, LocalDate.of(2024, 11, 23), malbec);
+        malbec.getReseña().add(reseña24);
+        Reseña reseña25 = new Reseña("Cabernet Sauvignon Gran Reserva, elegante y profundo, ideal para carnes rojas", true, 4.8f, LocalDate.of(2024, 11, 23), cabernetSauvignon);
+        cabernetSauvignon.getReseña().add(reseña25);
+        Reseña reseña26 = new Reseña("Torrontés Dulce, una explosión de frescura con un delicado toque floral", true, 4.6f, LocalDate.of(2024, 11, 23), torrontes);
+        torrontes.getReseña().add(reseña26);
+        Reseña reseña27 = new Reseña("Merlot Reserva, una suavidad que acompaña perfectamente pastas y carnes blancas", true, 4.5f, LocalDate.of(2024, 11, 23), merlot);
+        merlot.getReseña().add(reseña27);
+        Reseña reseña28 = new Reseña("Chardonnay Premium, notas a vainilla y un toque de roble bien integrado", true, 4.9f, LocalDate.of(2024, 11, 23), chardonnay);
+        chardonnay.getReseña().add(reseña28);
+
+        Reseña reseña29 = new Reseña("Syrah Especial, vino con carácter, con toques especiados y de frutos rojos", true, 4.7f, LocalDate.of(2024, 11, 23), syrah);
+        syrah.getReseña().add(reseña29);
+        Reseña reseña30 = new Reseña("Pinot Noir Elegante, ligero, con notas de frutos rojos y un final suave", true, 4.6f, LocalDate.of(2024, 11, 23), pinotNoir);
+        pinotNoir.getReseña().add(reseña30);
+        Reseña reseña31 = new Reseña("Sauvignon Blanc Fresco, de acidez balanceada, ideal para maridar con mariscos", true, 4.8f, LocalDate.of(2024, 11, 23), sauvignonBlanc);
+        sauvignonBlanc.getReseña().add(reseña31);
+        Reseña reseña32 = new Reseña("Tempranillo Joven, joven y fresco, con sabores de frutas rojas", true, 4.5f, LocalDate.of(2024, 11, 23), tempranillo);
+        tempranillo.getReseña().add(reseña32);
+        Reseña reseña33 = new Reseña("Gewürztraminer Exótico, un vino aromático con un toque dulce y especiado", true, 4.9f, LocalDate.of(2024, 11, 23), gewurztraminer);
+        gewurztraminer.getReseña().add(reseña33);
+
+        Reseña reseña34 = new Reseña("Zinfandel Intenso, potente y con un toque de especias, perfecto para carnes asadas", true, 4.7f, LocalDate.of(2024, 11, 23), zinfandel);
+        zinfandel.getReseña().add(reseña34);
+        Reseña reseña35 = new Reseña("Carménère Suave, un vino con cuerpo, ideal para acompañar guisos y carnes rojas", true, 4.8f, LocalDate.of(2024, 11, 23), carmenere);
+        carmenere.getReseña().add(reseña35);
+        Reseña reseña36 = new Reseña("Riesling Delicado, de acidez refrescante y sabores afrutados", true, 4.6f, LocalDate.of(2024, 11, 23), riesling);
+        riesling.getReseña().add(reseña36);
+        Reseña reseña37 = new Reseña("Garnacha Aromática, vino ligero con una agradable fragancia floral", true, 4.5f, LocalDate.of(2024, 11, 23), garnacha);
+        garnacha.getReseña().add(reseña37);
+        Reseña reseña38 = new Reseña("Albariño Refrescante, ideal para maridar con sushi y platos frescos", true, 4.9f, LocalDate.of(2024, 11, 23), albarino);
+        albarino.getReseña().add(reseña38);
+
+        
         
         // Añadir reseñas a los vinos correspondientes
         malbec.getReseña().add(reseñaMalbec);
