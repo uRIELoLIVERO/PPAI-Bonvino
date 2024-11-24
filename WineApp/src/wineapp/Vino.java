@@ -1,22 +1,69 @@
 package wineapp;
+
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.awt.Image;
+import javax.persistence.*;
 import wineapp.patronStrategy.IEstrategiaCalculoRanking;
 
+@Entity
+@Table(name = "Vino")
 public class Vino {
-    private LocalDate añada;
-    private LocalDate fechaActualizacion;
-    private Image imagenEtiqueta;
-    private String nombre;
-    private int notaDeCataBodega;
-    private float precioARS;
-    private ArrayList<Maridaje> maridaje;
-    private ArrayList<Reseña> reseñas = new ArrayList<>();
-    private ArrayList<Varietal> varietal;
-    private Bodega bodega;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Vino(LocalDate añada, LocalDate fechaActualizacion, Image imagenEtiqueta, String nombre, int notaDeCataBodega, float precioARS, ArrayList<Maridaje> maridaje, ArrayList<Varietal> varietal, Bodega bodega) {
+    @Column(name = "añada")
+    private LocalDate añada;
+
+    @Column(name = "fecha_actualizacion")
+    private LocalDate fechaActualizacion;
+
+    @Transient // Las imágenes se manejarán por separado
+    private Image imagenEtiqueta;
+
+    @Column(name = "ruta_imagen")
+    private String rutaImagenEtiqueta;
+
+    @Column(nullable = false)
+    private String nombre;
+
+    @Column(name = "nota_cata_bodega")
+    private int notaDeCataBodega;
+
+    @Column(name = "precio_ars")
+    private float precioARS;
+
+    @ManyToMany
+    @JoinTable(
+        name = "vino_maridaje",
+        joinColumns = @JoinColumn(name = "vino_id"),
+        inverseJoinColumns = @JoinColumn(name = "maridaje_id")
+    )
+    private ArrayList<Maridaje> maridaje;  // Relación con Maridaje
+
+    @OneToMany(mappedBy = "vino", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ArrayList<Reseña> reseñas = new ArrayList<>();  // Relación con Reseña
+
+    @ManyToMany
+    @JoinTable(
+        name = "vino_varietal",
+        joinColumns = @JoinColumn(name = "vino_id"),
+        inverseJoinColumns = @JoinColumn(name = "varietal_id")
+    )
+    private ArrayList<Varietal> varietal;  // Relación con Varietal
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bodega_id")
+    private Bodega bodega;  // Relación con Bodega
+
+    // Constructor por defecto requerido por JPA
+    protected Vino() {}
+
+    // Constructor original
+    public Vino(LocalDate añada, LocalDate fechaActualizacion, Image imagenEtiqueta, 
+                String nombre, int notaDeCataBodega, float precioARS, 
+                ArrayList<Maridaje> maridaje, ArrayList<Varietal> varietal, Bodega bodega) {
         this.añada = añada;
         this.fechaActualizacion = fechaActualizacion;
         this.imagenEtiqueta = imagenEtiqueta;
@@ -28,6 +75,25 @@ public class Vino {
         this.bodega = bodega;
     }
 
+    // Getter y setter para el nuevo campo id
+    public Long getId() {
+        return id;
+    }
+
+    protected void setId(Long id) {
+        this.id = id;
+    }
+
+    // Getters y setters para el manejo de la ruta de la imagen
+    public String getRutaImagenEtiqueta() {
+        return rutaImagenEtiqueta;
+    }
+
+    public void setRutaImagenEtiqueta(String rutaImagenEtiqueta) {
+        this.rutaImagenEtiqueta = rutaImagenEtiqueta;
+    }
+
+    // Métodos existentes sin cambios
     public boolean esDeBodega(Bodega bodega){
         return this.bodega.equals(bodega);
     }
@@ -37,7 +103,7 @@ public class Vino {
         return estrategia.calcularPromedioPuntuacion(reseñas, fechaInicio, fechaFin);
     }
     
-    // añada
+    // Resto de getters y setters existentes se mantienen igual
     public LocalDate getAñada() {
         return this.añada;
     }
@@ -45,7 +111,7 @@ public class Vino {
     public void setAñada(LocalDate añada){
         this.añada = añada;
     }
-    // fechaActualizacion
+
     public LocalDate getFechaActualizacion() {
         return this.fechaActualizacion;
     }
@@ -53,7 +119,7 @@ public class Vino {
     public void setFechaActualizacion(LocalDate fechaActualizacion){
         this.fechaActualizacion = fechaActualizacion;
     }
-    // imagenEtiqueta
+
     public Image getImagenEtiqueta() {
         return this.imagenEtiqueta;
     }
@@ -61,7 +127,7 @@ public class Vino {
     public void setImagenEtiqueta(Image imagenEtiqueta){
         this.imagenEtiqueta = imagenEtiqueta;
     }
-    // nombre
+
     public String getNombre() {
         return this.nombre;
     }
@@ -69,7 +135,7 @@ public class Vino {
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
-    // nota de cata bodega
+
     public int getnotaDeCataBodega() {
         return this.notaDeCataBodega;
     }
@@ -77,7 +143,7 @@ public class Vino {
     public void setnotaDeCataBodega(int notaDeCataBodega){
         this.notaDeCataBodega = notaDeCataBodega;
     }
-    // precio ARS
+
     public float getPrecioARS() {
         return this.precioARS;
     }
@@ -85,7 +151,7 @@ public class Vino {
     public void setPrecioARS(float precioARS){
         this.precioARS = precioARS;
     }
-    //maridaje
+
     public ArrayList<Maridaje> getMaridaje() {
         return this.maridaje;
     }
@@ -93,7 +159,7 @@ public class Vino {
     public void setMaridaje(ArrayList<Maridaje> maridaje){
         this.maridaje = maridaje;
     }
-    //reseña
+
     public ArrayList<Reseña> getReseña() {
         return this.reseñas;
     }
@@ -101,7 +167,7 @@ public class Vino {
     public void setReseña(ArrayList<Reseña> reseña){
         this.reseñas = reseña;
     }
-    // varietal
+
     public ArrayList<Varietal> getVarietal() {
         return this.varietal;
     }
@@ -109,6 +175,7 @@ public class Vino {
     public void setVarietal(ArrayList<Varietal> varietal){
         this.varietal = varietal;
     }
+
     public ArrayList<String> getDescripcionVarietal(){
         ArrayList<String> descripcionVarietales = new ArrayList<>();
         for (Varietal varietal : varietal) {
@@ -117,7 +184,6 @@ public class Vino {
         return descripcionVarietales;
     }
 
-    // bodega
     public Bodega getBodega(){
         return this.bodega;
     }
@@ -125,20 +191,16 @@ public class Vino {
     public void setBodega(Bodega bodega){
         this.bodega = bodega;
     }
+
     public String getNombreBodega(){
         return this.bodega.getNombre();
     }
 
-    public String getNombreRegionVitivinicola(){
+    public RegionVitivinicola getNombreRegionVitivinicola(){
         return this.bodega.getNombreRegionVitivinicola();
     }
 
     public ArrayList<String> getProcedencia(){
         return this.bodega.getProcedencia();
-    }
-    
-    public void tomarEstrategia(IEstrategiaCalculoRanking estrategia){
-        System.out.println("Seteando estrategia a vino"+ this.nombre);
-        this.estrategia = estrategia;
     }
 }

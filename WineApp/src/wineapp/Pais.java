@@ -1,28 +1,48 @@
 package wineapp;
+
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Pais{
+@Entity
+@Table(name = "pais")
+public class Pais {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String nombre;
-    private ArrayList <Provincia> provincia;
 
-    public Pais (String nombre, ArrayList <Provincia> provincia){
-        this.nombre = nombre;
-        this.provincia = provincia;
-    }
+    @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Provincia> provincias = new ArrayList<>();  // Relación con Provincia
 
-    public String getNombre(){
-        return this.nombre;
-    }
 
-    public void setNombre(String nombre){
+    // Constructor vacío requerido por JPA
+    protected Pais(String argentina, ArrayList<Provincia> provinciasArgentina) {}
+
+    public Pais(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setProvincia (ArrayList <Provincia> provincia){
-        this.provincia = provincia;
+    // Getters y setters
+    public Long getId() {
+        return id;
     }
 
-    public ArrayList<Provincia> getProvincia(){
-        return this.provincia;
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<Provincia> getProvincias() {
+        return provincias;
+    }
+
+    public void setProvincias(List<Provincia> provincias) {
+        this.provincias = provincias;
     }
 }
