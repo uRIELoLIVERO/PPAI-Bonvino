@@ -1,31 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package wineapp.patronStrategy;
-import wineapp.Reseña;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import wineapp.Reseña;
 
-/**
- *
- * @author carol
- */
 public class EstrategiaResSommelier implements IEstrategiaCalculoRanking{
     @Override
+
     public float calcularPromedioPuntuacion(ArrayList<Reseña> reseñas, LocalDate fechaInicio, LocalDate fechaFin) {
-        float acumulador = 0f;
-        int cantidad = 0;
+        // Filtrar reseñas por fechas (si es necesario)
+        float suma = 0;
+        int contador = 0;
+
         for (Reseña reseña : reseñas) {
-            if (reseña.esDePeriodo(fechaInicio, fechaFin) && reseña.sosDeSommelier()) {
-                acumulador += reseña.getPuntaje();
-                cantidad++;
+            LocalDate fecha = reseña.getFechaReseña();
+
+            // Filtrar por el rango de fechas si es necesario
+            if ((fechaInicio == null || !fecha.isBefore(fechaInicio)) && (fechaFin == null || !fecha.isAfter(fechaFin))) {
+                suma += reseña.getPuntaje();
+                contador++;
             }
         }
-        if (cantidad == 0) {
-            return 0; 
-        } else {
-            return acumulador / cantidad;
+
+        if (contador == 0) {
+            return 0;
         }
+
+        return suma / contador;
     }
 }
+
+
+
+

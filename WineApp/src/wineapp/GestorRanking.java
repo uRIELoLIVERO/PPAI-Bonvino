@@ -9,6 +9,7 @@ import wineapp.patronStrategy.EstrategiaResAmigos;
 import wineapp.patronStrategy.EstrategiaResNormales;
 import wineapp.patronStrategy.EstrategiaResSommelier;
 import wineapp.patronStrategy.IEstrategiaCalculoRanking;
+import wineapp.InterfazExcelReporteRanking;
 
 public class GestorRanking {
     private Date fechaInicioRanking;
@@ -182,7 +183,7 @@ public class GestorRanking {
  
     public void generarExcel(Object[][] rankingDatos){
         System.out.print("runea Excel");
-        excelReporte.generar(rankingDatos);
+        excelReporte.generar();
     }
     
     public void finCU(){

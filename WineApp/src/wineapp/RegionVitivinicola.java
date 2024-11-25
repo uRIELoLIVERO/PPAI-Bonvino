@@ -7,6 +7,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "RegionVitivinicola")
 public class RegionVitivinicola {
+
+    static int lenght() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

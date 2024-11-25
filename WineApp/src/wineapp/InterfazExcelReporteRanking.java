@@ -1,24 +1,36 @@
 package wineapp;
 
+
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+
 public class InterfazExcelReporteRanking {
-    
+
+
+    // Parámetros de conexión a la base de datos
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/wineapp"; // Cambia esto según tu configuración
+    private static final String DB_USER = "postgres"; // Usuario de la base de datos
+    private static final String DB_PASSWORD = "hebe456"; // Contraseña de la base de datos
+
+
     public InterfazExcelReporteRanking() {
     }
 
-    public void generar(Object[][] rankingConDatos) {
+
+    public void generar() {
         // Crear un nuevo workbook y una hoja
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Reporte Ranking Vinos");
 
-        System.out.println("GENERANDO EXCEL.... DATOS QUE UTILIZA:");
+
+        System.out.println("GENERANDO EXCEL...");
+
 
         // Definir los títulos del encabezado
         String[] encabezados = {
@@ -26,17 +38,17 @@ public class InterfazExcelReporteRanking {
             "Región", "Provincia", "País", "Promedio", "Varietal"
         };
 
+
+        // Obtener datos de la base de datos
+        List<Object[]> rankingConDatos = obtenerDatosDesdeBD();
+
+
         // Validar que tengamos datos para procesar
-        if (rankingConDatos == null || rankingConDatos.length == 0) {
+        if (rankingConDatos == null || rankingConDatos.isEmpty()) {
             System.out.println("Error: No hay datos para procesar");
             return;
         }
 
-        // Imprimir los datos para debug
-        imprimirDatosDebug(rankingConDatos);
-
-        // Reorganizar los datos si es necesario
-        Object[][] datosOrganizados = reorganizarDatos(rankingConDatos);
 
         // Crear encabezados en la fila 0
         Row headerRow = sheet.createRow(0);
@@ -45,17 +57,18 @@ public class InterfazExcelReporteRanking {
             headerCell.setCellValue(encabezados[j]);
         }
 
-        // Ordenar los datos por promedio
-        ordenarPorPromedio(datosOrganizados);
 
         // Iterar sobre las filas de datos
-        for (int i = 0; i < datosOrganizados.length; i++) {
+        for (int i = 0; i < rankingConDatos.size(); i++) {
             Row dataRow = sheet.createRow(i + 1); // +1 porque la fila 0 son los encabezados
-            
+            Object[] filaDatos = rankingConDatos.get(i);
+
+
             for (int j = 0; j < encabezados.length; j++) {
                 Cell cell = dataRow.createCell(j);
-                Object value = datosOrganizados[i][j];
-                
+                Object value = filaDatos[j];
+
+
                 try {
                     if (value instanceof String) {
                         cell.setCellValue((String) value);
@@ -73,10 +86,12 @@ public class InterfazExcelReporteRanking {
             }
         }
 
+
         // Ajustar el tamaño de las columnas automáticamente
         for (int i = 0; i < encabezados.length; i++) {
             sheet.autoSizeColumn(i);
         }
+
 
         // Escribir el archivo Excel en disco
         try (FileOutputStream fileOut = new FileOutputStream("ReporteRankingVinos.xlsx")) {
@@ -93,74 +108,71 @@ public class InterfazExcelReporteRanking {
         }
     }
 
-    private Object[][] reorganizarDatos(Object[][] datosOriginales) {
-        // Asumiendo que los datos están en columnas y necesitamos convertirlos a filas
-        int numColumnas = 8; // Número de columnas esperadas
-        int numFilas = datosOriginales[0].length; // Número de vinos
-        
-        Object[][] datosReorganizados = new Object[numFilas][numColumnas];
-        
-        // Reorganizar los datos de columnas a filas
-        try {
-            for (int i = 0; i < numFilas; i++) {
-                for (int j = 0; j < numColumnas; j++) {
-                    datosReorganizados[i][j] = datosOriginales[j][i];
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error al reorganizar datos: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
-        return datosReorganizados;
-    }
 
-    private void ordenarPorPromedio(Object[][] datos) {
-        try {
-            for (int i = 0; i < datos.length - 1; i++) {
-                for (int j = 0; j < datos.length - i - 1; j++) {
-                    // Obtener los promedios con manejo seguro de tipos
-                    double promedio1 = extraerPromedio(datos[j][6]);
-                    double promedio2 = extraerPromedio(datos[j + 1][6]);
-                    
-                    // Ordenar de mayor a menor
-                    if (promedio1 < promedio2) {
-                        // Intercambiar las filas completas
-                        Object[] temp = datos[j];
-                        datos[j] = datos[j + 1];
-                        datos[j + 1] = temp;
+        private List<Object[]> obtenerDatosDesdeBD() {
+        List<Object[]> datos = new ArrayList<>();
+
+        // Consulta principal para obtener los datos de los vinos
+        String query = "SELECT vino.id AS vino_id, vino.nombre, vino.precio_ars, " +
+                       "bodega.nombre AS nombre_bodega, " +
+                       "regionvitivinicola.nombre AS region, " +
+                       "provincia.nombre AS provincia, " +
+                       "pais.nombre AS pais, " +
+                       "varietal.descripcion AS varietal_descripcion " +
+                       "FROM vino " +
+                       "JOIN bodega ON vino.bodega_id = bodega.id " +
+                       "JOIN regionvitivinicola ON bodega.region_id = regionvitivinicola.id " +
+                       "JOIN provincia ON regionvitivinicola.provincia_id = provincia.id " +
+                       "JOIN pais ON provincia.pais_id = pais.id " +
+                       "JOIN vino_varietal ON vino.id = vino_varietal.vino_id " +
+                       "JOIN varietal ON vino_varietal.varietal_id = varietal.id";
+
+        // Consulta para calcular el promedio de puntajes de vinos premium por ID
+        String queryPromedio = "SELECT AVG(puntaje) AS promedio " +
+                               "FROM resena " +
+                               "WHERE vino_id = ? AND es_premium = true";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            // Preparar el statement para calcular los promedios
+            PreparedStatement stmtPromedio = conn.prepareStatement(queryPromedio);
+
+            // Procesar el ResultSet principal
+            while (rs.next()) {
+                Object[] fila = new Object[8]; // Ajustado al número de columnas seleccionadas en la consulta
+                int vinoId = rs.getInt("vino_id");
+
+                fila[0] = rs.getString("nombre"); // Nombre del vino
+                fila[1] = rs.getDouble("precio_ars"); // Precio en ARS
+                fila[2] = rs.getString("nombre_bodega"); // Nombre de la bodega
+                fila[3] = rs.getString("region"); // Región vitivinícola
+                fila[4] = rs.getString("provincia"); // Provincia
+                fila[5] = rs.getString("pais"); // País
+                fila[7] = rs.getString("varietal_descripcion"); // Descripción del varietal
+
+                // Calcular el promedio de puntaje para vinos premium
+                stmtPromedio.setInt(1, vinoId);
+                try (ResultSet rsPromedio = stmtPromedio.executeQuery()) {
+                    if (rsPromedio.next()) {
+                        fila[6] = rsPromedio.getDouble("promedio"); // Promedio de puntajes premium
+                    } else {
+                        fila[6] = null; // Si no hay puntajes, dejar el promedio como null
                     }
                 }
+
+                datos.add(fila);
             }
-        } catch (Exception e) {
-            System.out.println("Error al ordenar por promedio: " + e.getMessage());
+
+        } catch (SQLException e) {
+            System.out.println("Error al conectar con la base de datos: " + e.getMessage());
             e.printStackTrace();
         }
-    }
 
-    private double extraerPromedio(Object valor) {
-        try {
-            if (valor instanceof Double) {
-                return (Double) valor;
-            } else if (valor instanceof String) {
-                return Double.parseDouble((String) valor);
-            } else if (valor instanceof Integer) {
-                return ((Integer) valor).doubleValue();
-            }
-        } catch (Exception e) {
-            System.out.println("Error al extraer promedio del valor: " + valor);
+        return datos;
         }
-        return 0.0; // valor por defecto en caso de error
-    }
 
-    private void imprimirDatosDebug(Object[][] datos) {
-        System.out.println("Estructura de datos recibida:");
-        for (int i = 0; i < datos.length; i++) {
-            System.out.print("Fila " + i + ": ");
-            for (int j = 0; j < datos[i].length; j++) {
-                System.out.print(datos[i][j] + " | ");
-            }
-            System.out.println();
-        }
-    }
+
+
 }
